@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prova Avançada – Noções de Umbanda</title>
+<style>
+:root {
+  --accent: #4B0082;
+  --bg: #f9f8ff;
+  --card: #fff;
+  --muted: #555;
+}
+* { box-sizing: border-box; }
+body {
+  font-family: 'Poppins', Arial, sans-serif;
+  margin: 0; background: var(--bg);
+  color: #222; -webkit-font-smoothing: antialiased;
+}
+.container {
+  max-width: 900px; margin: 0 auto; padding: 20px;
+}
+.card {
+  background: var(--card);
+  border-radius: 14px;
+  padding: 20px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+.logo {
+  text-align: center;
+}
+.logo img {
+  width: 100px; height: 100px; border-radius: 50%;
+  object-fit: cover; border: 3px solid var(--accent);
+}
+h1 {
+  text-align: center; color: var(--accent);
+  margin-top: 10px;
+}
+button {
+  background: var(--accent);
+  color: #fff; border: none;
+  padding: 12px 18px;
+  border-radius: 8px;
+  font-size: 16px; cursor: pointer;
+  width: 100%;
+}
+button:hover { background: #5c0bb3; }
+input[type="text"], input[type="password"] {
+  width: 100%; padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+}
+.login-box, form { margin-top: 20px; }
+.question {
+  margin-bottom: 20px;
+  background: #f6f4ff;
+  padding: 10px 15px;
+  border-radius: 8px;
+}
+.options { margin-top: 8px; }
+label { margin-right: 20px; font-size: 16px; }
+.result {
+  background: #eef5ff; color: #063366;
+  padding: 15px; border-radius: 8px;
+  font-weight: bold; display: none;
+  margin-top: 20px;
+}
+.answer-item {
+  border-radius: 8px; padding: 10px;
+  margin-top: 10px;
+}
+.correct { background: #e6ffef; color: #036a2d; }
+.wrong { background: #ffeaea; color: #a10000; }
+@media (max-width: 768px) {
+  .container { padding: 10px; }
+  h1 { font-size: 20px; }
+  label { display: block; margin: 5px 0; }
+  button { font-size: 15px; }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="card" id="loginScreen">
+    <div class="logo">
+      <img src="https://i.ibb.co/DHBPfPWk/5c081edd-21e9-48fb-9a91-834cfdd112fc.jpg" alt="Logo">
+    </div>
+    <h1>Login da Prova</h1>
+    <div class="login-box">
+      <label>Usuário:</label>
+      <input type="text" id="username" placeholder="Digite o usuário">
+      <label>Senha:</label>
+      <input type="password" id="password" placeholder="Digite a senha">
+      <button onclick="login()">Entrar</button>
+      <p id="error" style="color:red;display:none;margin-top:10px;">Usuário ou senha incorretos.</p>
+    </div>
+  </div>
+
+  <div class="card" id="quizScreen" style="display:none;">
+    <div class="logo">
+      <img src="https://i.ibb.co/DHBPfPWk/5c081edd-21e9-48fb-9a91-834cfdd112fc.jpg" alt="Logo">
+    </div>
+    <h1>Prova Avançada – Noções de Umbanda</h1>
+    <form id="quizForm">
+      <div id="questions"></div>
+      <button type="button" onclick="verificar()">Ver Resultado</button>
+    </form>
+    <div class="result" id="resultado"></div>
+    <div id="respostas"></div>
+    <button style="margin-top:10px;display:none;" id="logoutBtn" onclick="logout()">Sair</button>
+  </div>
+</div>
+
+<script>
+const user = "paimarcio";
+const pass = "1234";
+
+const perguntas = [
+  "A Umbanda surgiu oficialmente no Brasil em 1908 através de Zélio de Moraes.",
+  "Na Umbanda, Exu é uma entidade maligna que deve ser evitada.",
+  "As sete linhas da Umbanda representam as vibrações divinas que sustentam a criação.",
+  "Ogum é o orixá da agricultura e da colheita.",
+  "Oxum rege as águas doces, o amor e a prosperidade.",
+  "Obaluaê está ligado à saúde, cura e às doenças.",
+  "Xangô é associado à justiça e ao equilíbrio das decisões.",
+  "Iemanjá é considerada a mãe de todos os orixás.",
+  "Nanã Buruquê representa o mistério da morte e da regeneração.",
+  "Oxóssi é o caçador das matas e representa a fartura.",
+  "Oxumaré é o orixá do movimento cíclico e da riqueza.",
+  "Omulu e Obaluaê são orixás diferentes e sem relação.",
+  "Erês representam pureza e alegria dentro da Umbanda.",
+  "Os pretos-velhos são espíritos sábios e pacíficos.",
+  "A gira é o nome dado às cerimônias e trabalhos espirituais nos terreiros.",
+  "Caboclos são espíritos que trabalham com energia da natureza e coragem.",
+  "Oferendas são formas de comunicação e agradecimento aos orixás.",
+  "Pemba é usada apenas para enfeitar o altar da Umbanda.",
+  "A defumação tem a função de purificar o ambiente espiritual.",
+  "A mediunidade é uma ponte entre o plano espiritual e o físico.",
+  "O passe é uma forma de transmissão de energia espiritual.",
+  "Umbanda e Candomblé são religiões idênticas em todos os aspectos.",
+  "Na Umbanda, não existe hierarquia ou respeito entre médiuns.",
+  "O atabaque é um instrumento usado para chamar as energias dos orixás.",
+  "Oxalá simboliza a paz, a fé e a pureza espiritual.",
+  "Ogum é sincretizado com São Jorge na tradição popular.",
+  "Cada médium deve desenvolver a humildade e o amor no atendimento.",
+  "Os pontos cantados ajudam a equilibrar as vibrações durante os trabalhos.",
+  "Zambi é o nome dado ao Deus Supremo da Umbanda.",
+  "A caridade é o principal fundamento da prática umbandista."
+];
+
+const corretas = {
+  q1:"Sim", q2:"Não", q3:"Sim", q4:"Não", q5:"Sim", q6:"Sim", q7:"Sim", q8:"Sim", q9:"Sim", q10:"Sim",
+  q11:"Sim", q12:"Não", q13:"Sim", q14:"Sim", q15:"Sim", q16:"Sim", q17:"Sim", q18:"Não", q19:"Sim", q20:"Sim",
+  q21:"Sim", q22:"Não", q23:"Não", q24:"Sim", q25:"Sim", q26:"Sim", q27:"Sim", q28:"Sim", q29:"Sim", q30:"Sim"
+};
+
+function login(){
+  const u=document.getElementById("username").value.trim();
+  const p=document.getElementById("password").value.trim();
+  if(u===user && p===pass){
+    document.getElementById("loginScreen").style.display="none";
+    document.getElementById("quizScreen").style.display="block";
+    montarPerguntas();
+  } else {
+    document.getElementById("error").style.display="block";
+  }
+}
+
+function montarPerguntas(){
+  const qDiv=document.getElementById("questions");
+  qDiv.innerHTML="";
+  perguntas.forEach((txt,i)=>{
+    const id="q"+(i+1);
+    qDiv.innerHTML+=`
+    <div class="question">
+      <div>${i+1}. ${txt}</div>
+      <div class="options">
+        <label><input type="radio" name="${id}" value="Sim"> Sim</label>
+        <label><input type="radio" name="${id}" value="Não"> Não</label>
+      </div>
+    </div>`;
+  });
+}
+
+function verificar(){
+  const total=Object.keys(corretas).length;
+  let acertos=0;
+  let naoResp=[];
+  Object.keys(corretas).forEach(k=>{
+    const r=document.querySelector('input[name="'+k+'"]:checked');
+    if(!r){ naoResp.push(k); return; }
+    if(r.value===corretas[k]) acertos++;
+  });
+  if(naoResp.length>0){ alert("Responda todas as perguntas antes de enviar!"); return; }
+  const resultado=document.getElementById("resultado");
+  const perc=Math.round((acertos/total)*100);
+  resultado.style.display="block";
+  resultado.innerHTML=`Você acertou <strong>${acertos}</strong> de <strong>${total}</strong> perguntas (${perc}%).`;
+  mostrarRespostas();
+  document.getElementById("logoutBtn").style.display="block";
+}
+
+function mostrarRespostas(){
+  const div=document.getElementById("respostas");
+  div.innerHTML="";
+  Object.keys(corretas).forEach((k,i)=>{
+    const r=document.querySelector('input[name="'+k+'"]:checked');
+    const valor=r?r.value:"Não respondida";
+    const correta=corretas[k];
+    const cls=valor===correta?"correct":"wrong";
+    div.innerHTML+=`<div class="answer-item ${cls}">
+      <strong>${i+1}. ${perguntas[i]}</strong><br>
+      Sua resposta: <b>${valor}</b> | Correta: <b>${correta}</b>
+    </div>`;
+  });
+}
+
+function logout(){
+  document.getElementById("quizScreen").style.display="none";
+  document.getElementById("loginScreen").style.display="block";
+  document.getElementById("username").value="";
+  document.getElementById("password").value="";
+  document.getElementById("resultado").style.display="none";
+  document.getElementById("respostas").innerHTML="";
+  document.getElementById("logoutBtn").style.display="none";
+}
+</script>
+</body>
+</html>
