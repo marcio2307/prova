@@ -4,92 +4,179 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Prova Avançada – Noções de Umbanda</title>
+
 <style>
+
 :root {
-  --accent: #064e3b; /* verde escuro */
+  --accent: #064e3b;
   --bg: #f9f9f5;
   --card: #fff;
   --muted: #444;
 }
-* { box-sizing: border-box; }
+
+* {
+  box-sizing: border-box;
+}
+
 body {
   font-family: 'Poppins', Arial, sans-serif;
-  margin: 0; background: var(--bg);
-  color: #222; -webkit-font-smoothing: antialiased;
+  margin: 0;
+  background: var(--bg);
+  color: #222;
+  -webkit-font-smoothing: antialiased;
 }
+
 .container {
-  max-width: 900px; margin: 0 auto; padding: 20px;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
 }
+
 .card {
   background: var(--card);
   border-radius: 14px;
   padding: 20px;
   box-shadow: 0 5px 15px rgba(0,0,0,0.1);
 }
+
 .logo {
   text-align: center;
 }
+
 .logo img {
-  width: 100px; height: 100px; border-radius: 50%;
-  object-fit: cover; border: 3px solid var(--accent);
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--accent);
 }
+
 h1 {
-  text-align: center; color: var(--accent);
+  text-align: center;
+  color: var(--accent);
   margin-top: 10px;
 }
+
 button {
   background: var(--accent);
-  color: #fff; border: none;
+  color: #fff;
+  border: none;
   padding: 12px 18px;
   border-radius: 8px;
-  font-size: 16px; cursor: pointer;
+  font-size: 16px;
+  cursor: pointer;
   width: 100%;
 }
-button:hover { background: #0d7a5c; }
-input[type="text"], input[type="password"] {
-  width: 100%; padding: 10px;
+
+button:hover {
+  background: #0d7a5c;
+}
+
+input[type="text"],
+input[type="password"] {
+  width: 100%;
+  padding: 10px;
   margin-top: 5px;
   border: 1px solid #ccc;
   border-radius: 8px;
   font-size: 16px;
 }
-.login-box, form { margin-top: 20px; }
+
+.login-box,
+form {
+  margin-top: 20px;
+}
+
 .question {
   margin-bottom: 20px;
   background: #f0f9f4;
   padding: 10px 15px;
   border-radius: 8px;
 }
-.options { margin-top: 8px; }
-label { margin-right: 20px; font-size: 16px; color: var(--accent); }
+
+.options {
+  margin-top: 8px;
+}
+
+label {
+  margin-right: 20px;
+  font-size: 16px;
+  color: var(--accent);
+}
+
 .result {
-  background: #e9fff0; color: #064e3b;
-  padding: 15px; border-radius: 8px;
-  font-weight: bold; display: none;
+  background: #e9fff0;
+  color: #064e3b;
+  padding: 15px;
+  border-radius: 8px;
+  font-weight: bold;
+  display: none;
   margin-top: 20px;
 }
+
 .answer-item {
-  border-radius: 8px; padding: 10px;
+  border-radius: 8px;
+  padding: 10px;
   margin-top: 10px;
 }
-.correct { background: #e6ffef; color: #036a2d; }
-.wrong { background: #ffeaea; color: #a10000; }
-@media (max-width: 768px) {
-  .container { padding: 10px; }
-  h1 { font-size: 20px; }
-  label { display: block; margin: 5px 0; }
-  button { font-size: 15px; }
+
+.correct {
+  background: #e6ffef;
+  color: #036a2d;
 }
+
+.wrong {
+  background: #ffeaea;
+  color: #a10000;
+}
+
+@media (max-width: 768px) {
+
+  .container {
+    padding: 10px;
+  }
+
+  h1 {
+    font-size: 20px;
+  }
+
+  label {
+    display: block;
+    margin: 5px 0;
+  }
+
+  button {
+    font-size: 15px;
+  }
+
+}
+
 </style>
 </head>
+
 <body>
 
 <div class="container">
 
+  <!-- =========================
+       TELA DE LOGIN
+  ========================== -->
+
   <div class="card" id="loginScreen">
 
     <div class="logo">
-      <img src="https://i.ibb.co/DHBPfPWk/5c081edd-21e9-48fb-9a91-834cfdd112fc.jpg" alt="Logo">
+
+      <!--
+        IMPORTANTE:
+        O arquivo logo.jpg deve estar na mesma pasta
+        deste arquivo index.html no GitHub Pages.
+      -->
+
+      <img
+        src="./logo.jpg"
+        alt="Logo do Terreiro"
+      >
+
     </div>
 
     <h1>Login da Prova</h1>
@@ -112,7 +199,9 @@ label { margin-right: 20px; font-size: 16px; color: var(--accent); }
         placeholder="Digite a senha"
       >
 
-      <button onclick="login()">Entrar</button>
+      <button onclick="login()">
+        Entrar
+      </button>
 
       <p
         id="error"
@@ -126,16 +215,28 @@ label { margin-right: 20px; font-size: 16px; color: var(--accent); }
   </div>
 
 
-  <div class="card" id="quizScreen" style="display:none;">
+  <!-- =========================
+       TELA DA PROVA
+  ========================== -->
+
+  <div
+    class="card"
+    id="quizScreen"
+    style="display:none;"
+  >
 
     <div class="logo">
+
       <img
-        src="https://i.ibb.co/DHBPfPWk/5c081edd-21e9-48fb-9a91-834cfdd112fc.jpg"
-        alt="Logo"
+        src="./logo.jpg"
+        alt="Logo do Terreiro"
       >
+
     </div>
 
-    <h1>Prova Avançada – Noções de Umbanda</h1>
+    <h1>
+      Prova Avançada – Noções de Umbanda
+    </h1>
 
     <form id="quizForm">
 
@@ -150,7 +251,10 @@ label { margin-right: 20px; font-size: 16px; color: var(--accent); }
 
     </form>
 
-    <div class="result" id="resultado"></div>
+    <div
+      class="result"
+      id="resultado"
+    ></div>
 
     <div id="respostas"></div>
 
@@ -169,348 +273,182 @@ label { margin-right: 20px; font-size: 16px; color: var(--accent); }
 
 <script>
 
+/* =====================================================
+   LOGIN
+===================================================== */
+
 const user = "paimarcio";
 const pass = "2026";
 
 
-/*
-========================================================
-PERGUNTAS COM PEGADINHAS
-Baseadas exclusivamente no conteúdo da apostila.
-========================================================
-*/
+/* =====================================================
+   PERGUNTAS
+   BASEADAS NA APOSTILA
+   COM PEGADINHAS
+===================================================== */
 
 const perguntas = [
 
-  /*
-  1
-  Pegadinha: data correta x data trocada
-  */
-
   "A apostila afirma que a Umbanda surgiu no Brasil em 15 de novembro de 1908.",
-
-
-  /*
-  2
-  Pegadinha: nome do anunciador
-  */
 
   "Segundo o material, o anunciador do credo da Umbanda foi Zélio Fernandino de Moraes.",
 
-
-  /*
-  3
-  Pegadinha: mistura de aspectos
-  */
-
   "A apostila afirma que a Umbanda abrange aspectos do Candomblé, do Espiritismo e do Catolicismo.",
-
-
-  /*
-  4
-  Pegadinha: linhas x falanges
-  */
 
   "Segundo a apostila, LINHAS são as ramificações das FALANGES.",
 
-
-  /*
-  5
-  Pegadinha: definição correta de falange
-  */
-
   "De acordo com o material, FALANGE corresponde às ramificações das LINHAS.",
-
-
-  /*
-  6
-  Pegadinha: origem de Oxalá
-  */
 
   "Segundo a apostila, Oxalá tem origem Iorubá (Nagô).",
 
-
-  /*
-  7
-  Pegadinha: dia de Oxalá
-  */
-
   "O dia indicado para Oxalá na apostila é sexta-feira.",
-
-
-  /*
-  8
-  Pegadinha: cor de Oxalá
-  */
 
   "A apostila apresenta verde como a cor de Oxalá.",
 
-
-  /*
-  9
-  Pegadinha: distintivos de Oxalá
-  */
-
   "Entre os distintivos apresentados para Oxalá estão o sol, a pomba branca e o céu.",
-
-
-  /*
-  10
-  Pegadinha: dia de Iemanjá
-  */
 
   "Segundo a apostila, o dia de Iemanjá é sábado.",
 
-
-  /*
-  11
-  Pegadinha: distintivo Iemanjá
-  */
-
   "O Abebé, descrito como um leque em forma circular, é apresentado como distintivo de Iemanjá.",
-
-
-  /*
-  12
-  Pegadinha: origem Iemanjá
-  */
 
   "De acordo com o material, Iemanjá possui origem Daomé (Gegê).",
 
-
-  /*
-  13
-  Pegadinha: saudação Iemanjá
-  */
-
   "A saudação de Iemanjá apresentada na apostila é Odôia.",
-
-
-  /*
-  14
-  Pegadinha: origem Nanã
-  */
 
   "Segundo a apostila, Nanã Buruquê tem origem Daomé (Gegê).",
 
-
-  /*
-  15
-  Pegadinha: dias Nanã
-  */
-
   "O material apresenta segunda-feira e sábado como dias de Nanã Buruquê.",
-
-
-  /*
-  16
-  Pegadinha: domínio de Ogum
-  */
 
   "Segundo a apostila, os domínios de Ogum são os caminhos e as guerras.",
 
-
-  /*
-  17
-  Pegadinha: distintivo Ogum
-  */
-
   "O distintivo de Ogum apresentado no material é o arco e a flecha.",
-
-
-  /*
-  18
-  Pegadinha: cor Ogum
-  */
 
   "A cor de Ogum indicada na apostila é vermelho e branco.",
 
-
-  /*
-  19
-  Pegadinha: domínio Oxóssi
-  */
-
   "Oxóssi é apresentado como Orixá caçador, tendo como domínio as matas e as florestas.",
-
-
-  /*
-  20
-  Pegadinha: cor Oxóssi
-  */
 
   "Segundo a apostila, a cor de Oxóssi é verde.",
 
-
-  /*
-  21
-  Pegadinha: saudação Oxóssi
-  */
-
   "A apostila apresenta 'Okê, Okê Arô, Oxóssiê, Okê Odé' entre as saudações de Oxóssi.",
-
-
-  /*
-  22
-  Pegadinha: domínio de Oxum
-  */
 
   "Oxum é apresentada no material como Deusa dos rios, lagos, fontes e cachoeiras.",
 
-
-  /*
-  23
-  Pegadinha: dias de Oxum
-  */
-
   "Segundo a apostila, os dias de Oxum são quarta-feira e sábado.",
-
-
-  /*
-  24
-  Pegadinha: Iansã
-  */
 
   "Iansã é apresentada como Deusa dos ventos e das tempestades e como aquela que domina os eguns.",
 
-
-  /*
-  25
-  Pegadinha: dias Iansã
-  */
-
   "O material indica quarta-feira e sábado como dias de Iansã.",
-
-
-  /*
-  26
-  Pegadinha: Xangô
-  */
 
   "Segundo a apostila, Xangô é associado aos trovões, aos raios e à justiça.",
 
-
-  /*
-  27
-  Pegadinha: distintivo Xangô
-  */
-
   "O distintivo de Xangô apresentado no material é o machado de dois lados, chamado oxé.",
-
-
-  /*
-  28
-  Pegadinha: Obaluaê
-  */
 
   "A apostila afirma que a prioridade de Obaluaê é a cura, embora ele seja apresentado como senhor das doenças.",
 
-
-  /*
-  29
-  Pegadinha: Exu
-  */
-
   "Segundo o material, Exu é apresentado como mensageiro dos Orixás e possui as horas sagradas 6, 12, 18 e 24.",
-
-
-  /*
-  30
-  Pegadinha: pemba
-  */
 
   "A pemba é apresentada na apostila como um giz de formato cônico-arredondado, feito de calcário e utilizado ritualisticamente."
 
 ];
 
 
+/* =====================================================
+   RESPOSTAS CORRETAS
+===================================================== */
+
 const corretas = {
 
-  q1:"Sim",
+  q1: "Sim",
 
-  q2:"Sim",
+  q2: "Sim",
 
-  q3:"Sim",
+  q3: "Sim",
 
-  q4:"Não",
+  q4: "Não",
 
-  q5:"Sim",
+  q5: "Sim",
 
-  q6:"Sim",
+  q6: "Sim",
 
-  q7:"Sim",
+  q7: "Sim",
 
-  q8:"Não",
+  q8: "Não",
 
-  q9:"Sim",
+  q9: "Sim",
 
-  q10:"Sim",
+  q10: "Sim",
 
-  q11:"Sim",
+  q11: "Sim",
 
-  q12:"Não",
+  q12: "Não",
 
-  q13:"Sim",
+  q13: "Sim",
 
-  q14:"Sim",
+  q14: "Sim",
 
-  q15:"Sim",
+  q15: "Sim",
 
-  q16:"Sim",
+  q16: "Sim",
 
-  q17:"Não",
+  q17: "Não",
 
-  q18:"Sim",
+  q18: "Sim",
 
-  q19:"Sim",
+  q19: "Sim",
 
-  q20:"Sim",
+  q20: "Sim",
 
-  q21:"Sim",
+  q21: "Sim",
 
-  q22:"Sim",
+  q22: "Sim",
 
-  q23:"Sim",
+  q23: "Sim",
 
-  q24:"Sim",
+  q24: "Sim",
 
-  q25:"Sim",
+  q25: "Sim",
 
-  q26:"Sim",
+  q26: "Sim",
 
-  q27:"Sim",
+  q27: "Sim",
 
-  q28:"Sim",
+  q28: "Sim",
 
-  q29:"Sim",
+  q29: "Sim",
 
-  q30:"Sim"
+  q30: "Sim"
 
 };
 
 
-function login(){
+/* =====================================================
+   LOGIN
+===================================================== */
 
-  const u=document
-    .getElementById("username")
-    .value
-    .trim();
+function login() {
 
-  const p=document
-    .getElementById("password")
-    .value
-    .trim();
+  const u =
+    document
+      .getElementById("username")
+      .value
+      .trim();
+
+  const p =
+    document
+      .getElementById("password")
+      .value
+      .trim();
 
 
-  if(u===user && p===pass){
+  if (u === user && p === pass) {
 
     document
       .getElementById("loginScreen")
-      .style.display="none";
+      .style.display = "none";
 
     document
       .getElementById("quizScreen")
-      .style.display="block";
+      .style.display = "block";
 
     montarPerguntas();
 
@@ -518,65 +456,68 @@ function login(){
 
     document
       .getElementById("error")
-      .style.display="block";
+      .style.display = "block";
 
   }
 
 }
 
 
-function montarPerguntas(){
+/* =====================================================
+   MONTAR PERGUNTAS
+===================================================== */
 
-  const qDiv=document
-    .getElementById("questions");
+function montarPerguntas() {
 
-  qDiv.innerHTML="";
+  const qDiv =
+    document.getElementById("questions");
 
-
-  perguntas.forEach((txt,i)=>{
-
-    const id="q"+(i+1);
+  qDiv.innerHTML = "";
 
 
-    qDiv.innerHTML+=`
+  perguntas.forEach((txt, i) => {
 
-    <div class="question">
+    const id = "q" + (i + 1);
 
-      <div>
-        ${i+1}. ${txt}
+
+    qDiv.innerHTML += `
+
+      <div class="question">
+
+        <div>
+          ${i + 1}. ${txt}
+        </div>
+
+        <div class="options">
+
+          <label>
+
+            <input
+              type="radio"
+              name="${id}"
+              value="Sim"
+            >
+
+            Sim
+
+          </label>
+
+
+          <label>
+
+            <input
+              type="radio"
+              name="${id}"
+              value="Não"
+            >
+
+            Não
+
+          </label>
+
+        </div>
+
       </div>
-
-
-      <div class="options">
-
-        <label>
-
-          <input
-            type="radio"
-            name="${id}"
-            value="Sim"
-          >
-
-          Sim
-
-        </label>
-
-
-        <label>
-
-          <input
-            type="radio"
-            name="${id}"
-            value="Não"
-          >
-
-          Não
-
-        </label>
-
-      </div>
-
-    </div>
 
     `;
 
@@ -585,24 +526,29 @@ function montarPerguntas(){
 }
 
 
-function verificar(){
+/* =====================================================
+   VERIFICAR PROVA
+===================================================== */
 
-  const total=
+function verificar() {
+
+  const total =
     Object.keys(corretas).length;
 
-  let acertos=0;
+  let acertos = 0;
 
-  let naoResp=[];
-
-
-  Object.keys(corretas).forEach(k=>{
-
-    const r=document.querySelector(
-      'input[name="'+k+'"]:checked'
-    );
+  let naoResp = [];
 
 
-    if(!r){
+  Object.keys(corretas).forEach(k => {
+
+    const r =
+      document.querySelector(
+        'input[name="' + k + '"]:checked'
+      );
+
+
+    if (!r) {
 
       naoResp.push(k);
 
@@ -611,7 +557,7 @@ function verificar(){
     }
 
 
-    if(r.value===corretas[k]){
+    if (r.value === corretas[k]) {
 
       acertos++;
 
@@ -620,7 +566,7 @@ function verificar(){
   });
 
 
-  if(naoResp.length>0){
+  if (naoResp.length > 0) {
 
     alert(
       "Responda todas as perguntas antes de enviar!"
@@ -631,19 +577,20 @@ function verificar(){
   }
 
 
-  const resultado=
+  const resultado =
     document.getElementById("resultado");
 
 
-  const perc=Math.round(
-    (acertos/total)*100
-  );
+  const perc =
+    Math.round(
+      (acertos / total) * 100
+    );
 
 
-  resultado.style.display="block";
+  resultado.style.display = "block";
 
 
-  resultado.innerHTML=`
+  resultado.innerHTML = `
 
     Você acertou
 
@@ -665,56 +612,67 @@ function verificar(){
 
   document
     .getElementById("logoutBtn")
-    .style.display="block";
+    .style.display = "block";
 
 }
 
 
-function mostrarRespostas(){
+/* =====================================================
+   MOSTRAR RESPOSTAS
+===================================================== */
 
-  const div=
+function mostrarRespostas() {
+
+  const div =
     document.getElementById("respostas");
 
-  div.innerHTML="";
+  div.innerHTML = "";
 
 
-  Object.keys(corretas).forEach((k,i)=>{
+  Object.keys(corretas).forEach((k, i) => {
 
-    const r=document.querySelector(
-      'input[name="'+k+'"]:checked'
-    );
-
-
-    const valor=
-      r ? r.value : "Não respondida";
+    const r =
+      document.querySelector(
+        'input[name="' + k + '"]:checked'
+      );
 
 
-    const correta=
+    const valor =
+      r
+        ? r.value
+        : "Não respondida";
+
+
+    const correta =
       corretas[k];
 
 
-    const cls=
-      valor===correta
-      ? "correct"
-      : "wrong";
+    const cls =
+      valor === correta
+        ? "correct"
+        : "wrong";
 
 
-    div.innerHTML+=`
+    div.innerHTML += `
 
       <div class="answer-item ${cls}">
 
         <strong>
-          ${i+1}. ${perguntas[i]}
+
+          ${i + 1}. ${perguntas[i]}
+
         </strong>
 
         <br>
 
         Sua resposta:
+
         <b>${valor}</b>
 
         |
 
         Correta:
+
         <b>${correta}</b>
 
       </div>
@@ -726,41 +684,45 @@ function mostrarRespostas(){
 }
 
 
-function logout(){
+/* =====================================================
+   SAIR / LOGOUT
+===================================================== */
+
+function logout() {
 
   document
     .getElementById("quizScreen")
-    .style.display="none";
+    .style.display = "none";
 
 
   document
     .getElementById("loginScreen")
-    .style.display="block";
+    .style.display = "block";
 
 
   document
     .getElementById("username")
-    .value="";
+    .value = "";
 
 
   document
     .getElementById("password")
-    .value="";
+    .value = "";
 
 
   document
     .getElementById("resultado")
-    .style.display="none";
+    .style.display = "none";
 
 
   document
     .getElementById("respostas")
-    .innerHTML="";
+    .innerHTML = "";
 
 
   document
     .getElementById("logoutBtn")
-    .style.display="none";
+    .style.display = "none";
 
 }
 
