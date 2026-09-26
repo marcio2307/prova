@@ -85,149 +85,686 @@ label { margin-right: 20px; font-size: 16px; color: var(--accent); }
 <body>
 
 <div class="container">
+
   <div class="card" id="loginScreen">
+
     <div class="logo">
       <img src="https://i.ibb.co/DHBPfPWk/5c081edd-21e9-48fb-9a91-834cfdd112fc.jpg" alt="Logo">
     </div>
+
     <h1>Login da Prova</h1>
+
     <div class="login-box">
+
       <label>Usuário:</label>
-      <input type="text" id="username" placeholder="Digite o usuário">
+
+      <input
+        type="text"
+        id="username"
+        placeholder="Digite o usuário"
+      >
+
       <label>Senha:</label>
-      <input type="password" id="password" placeholder="Digite a senha">
+
+      <input
+        type="password"
+        id="password"
+        placeholder="Digite a senha"
+      >
+
       <button onclick="login()">Entrar</button>
-      <p id="error" style="color:red;display:none;margin-top:10px;">Usuário ou senha incorretos.</p>
+
+      <p
+        id="error"
+        style="color:red;display:none;margin-top:10px;"
+      >
+        Usuário ou senha incorretos.
+      </p>
+
     </div>
+
   </div>
+
 
   <div class="card" id="quizScreen" style="display:none;">
+
     <div class="logo">
-      <img src="https://i.ibb.co/DHBPfPWk/5c081edd-21e9-48fb-9a91-834cfdd112fc.jpg" alt="Logo">
+      <img
+        src="https://i.ibb.co/DHBPfPWk/5c081edd-21e9-48fb-9a91-834cfdd112fc.jpg"
+        alt="Logo"
+      >
     </div>
+
     <h1>Prova Avançada – Noções de Umbanda</h1>
+
     <form id="quizForm">
+
       <div id="questions"></div>
-      <button type="button" onclick="verificar()">Ver Resultado</button>
+
+      <button
+        type="button"
+        onclick="verificar()"
+      >
+        Ver Resultado
+      </button>
+
     </form>
+
     <div class="result" id="resultado"></div>
+
     <div id="respostas"></div>
-    <button style="margin-top:10px;display:none;" id="logoutBtn" onclick="logout()">Sair</button>
+
+    <button
+      style="margin-top:10px;display:none;"
+      id="logoutBtn"
+      onclick="logout()"
+    >
+      Sair
+    </button>
+
   </div>
+
 </div>
 
+
 <script>
+
 const user = "paimarcio";
-const pass = "1234";
+const pass = "2026";
+
+
+/*
+========================================================
+PERGUNTAS COM PEGADINHAS
+Baseadas exclusivamente no conteúdo da apostila.
+========================================================
+*/
 
 const perguntas = [
-  "A Umbanda surgiu oficialmente no Brasil em 1908 através de Zélio de Moraes.",
-  "Na Umbanda, Exu é uma entidade maligna que deve ser evitada.",
-  "As sete linhas da Umbanda representam as vibrações divinas que sustentam a criação.",
-  "Ogum é o orixá da agricultura e da colheita.",
-  "Oxum rege as águas doces, o amor e a prosperidade.",
-  "Obaluaê está ligado à saúde, cura e às doenças.",
-  "Xangô é associado à justiça e ao equilíbrio das decisões.",
-  "Iemanjá é considerada a mãe de todos os orixás.",
-  "Nanã Buruquê representa o mistério da morte e da regeneração.",
-  "Oxóssi é o caçador das matas e representa a fartura.",
-  "Oxumaré é o orixá do movimento cíclico e da riqueza.",
-  "Omulu e Obaluaê são orixás diferentes e sem relação.",
-  "Erês representam pureza e alegria dentro da Umbanda.",
-  "Os pretos-velhos são espíritos sábios e pacíficos.",
-  "A gira é o nome dado às cerimônias e trabalhos espirituais nos terreiros.",
-  "Caboclos são espíritos que trabalham com energia da natureza e coragem.",
-  "Oferendas são formas de comunicação e agradecimento aos orixás.",
-  "Pemba é usada apenas para enfeitar o altar da Umbanda.",
-  "A defumação tem a função de purificar o ambiente espiritual.",
-  "A mediunidade é uma ponte entre o plano espiritual e o físico.",
-  "O passe é uma forma de transmissão de energia espiritual.",
-  "Umbanda e Candomblé são religiões idênticas em todos os aspectos.",
-  "Na Umbanda, não existe hierarquia ou respeito entre médiuns.",
-  "O atabaque é um instrumento usado para chamar as energias dos orixás.",
-  "Oxalá simboliza a paz, a fé e a pureza espiritual.",
-  "Ogum é sincretizado com São Jorge na tradição popular.",
-  "Cada médium deve desenvolver a humildade e o amor no atendimento.",
-  "Os pontos cantados ajudam a equilibrar as vibrações durante os trabalhos.",
-  "Zambi é o nome dado ao Deus Supremo da Umbanda.",
-  "A caridade é o principal fundamento da prática umbandista."
+
+  /*
+  1
+  Pegadinha: data correta x data trocada
+  */
+
+  "A apostila afirma que a Umbanda surgiu no Brasil em 15 de novembro de 1908.",
+
+
+  /*
+  2
+  Pegadinha: nome do anunciador
+  */
+
+  "Segundo o material, o anunciador do credo da Umbanda foi Zélio Fernandino de Moraes.",
+
+
+  /*
+  3
+  Pegadinha: mistura de aspectos
+  */
+
+  "A apostila afirma que a Umbanda abrange aspectos do Candomblé, do Espiritismo e do Catolicismo.",
+
+
+  /*
+  4
+  Pegadinha: linhas x falanges
+  */
+
+  "Segundo a apostila, LINHAS são as ramificações das FALANGES.",
+
+
+  /*
+  5
+  Pegadinha: definição correta de falange
+  */
+
+  "De acordo com o material, FALANGE corresponde às ramificações das LINHAS.",
+
+
+  /*
+  6
+  Pegadinha: origem de Oxalá
+  */
+
+  "Segundo a apostila, Oxalá tem origem Iorubá (Nagô).",
+
+
+  /*
+  7
+  Pegadinha: dia de Oxalá
+  */
+
+  "O dia indicado para Oxalá na apostila é sexta-feira.",
+
+
+  /*
+  8
+  Pegadinha: cor de Oxalá
+  */
+
+  "A apostila apresenta verde como a cor de Oxalá.",
+
+
+  /*
+  9
+  Pegadinha: distintivos de Oxalá
+  */
+
+  "Entre os distintivos apresentados para Oxalá estão o sol, a pomba branca e o céu.",
+
+
+  /*
+  10
+  Pegadinha: dia de Iemanjá
+  */
+
+  "Segundo a apostila, o dia de Iemanjá é sábado.",
+
+
+  /*
+  11
+  Pegadinha: distintivo Iemanjá
+  */
+
+  "O Abebé, descrito como um leque em forma circular, é apresentado como distintivo de Iemanjá.",
+
+
+  /*
+  12
+  Pegadinha: origem Iemanjá
+  */
+
+  "De acordo com o material, Iemanjá possui origem Daomé (Gegê).",
+
+
+  /*
+  13
+  Pegadinha: saudação Iemanjá
+  */
+
+  "A saudação de Iemanjá apresentada na apostila é Odôia.",
+
+
+  /*
+  14
+  Pegadinha: origem Nanã
+  */
+
+  "Segundo a apostila, Nanã Buruquê tem origem Daomé (Gegê).",
+
+
+  /*
+  15
+  Pegadinha: dias Nanã
+  */
+
+  "O material apresenta segunda-feira e sábado como dias de Nanã Buruquê.",
+
+
+  /*
+  16
+  Pegadinha: domínio de Ogum
+  */
+
+  "Segundo a apostila, os domínios de Ogum são os caminhos e as guerras.",
+
+
+  /*
+  17
+  Pegadinha: distintivo Ogum
+  */
+
+  "O distintivo de Ogum apresentado no material é o arco e a flecha.",
+
+
+  /*
+  18
+  Pegadinha: cor Ogum
+  */
+
+  "A cor de Ogum indicada na apostila é vermelho e branco.",
+
+
+  /*
+  19
+  Pegadinha: domínio Oxóssi
+  */
+
+  "Oxóssi é apresentado como Orixá caçador, tendo como domínio as matas e as florestas.",
+
+
+  /*
+  20
+  Pegadinha: cor Oxóssi
+  */
+
+  "Segundo a apostila, a cor de Oxóssi é verde.",
+
+
+  /*
+  21
+  Pegadinha: saudação Oxóssi
+  */
+
+  "A apostila apresenta 'Okê, Okê Arô, Oxóssiê, Okê Odé' entre as saudações de Oxóssi.",
+
+
+  /*
+  22
+  Pegadinha: domínio de Oxum
+  */
+
+  "Oxum é apresentada no material como Deusa dos rios, lagos, fontes e cachoeiras.",
+
+
+  /*
+  23
+  Pegadinha: dias de Oxum
+  */
+
+  "Segundo a apostila, os dias de Oxum são quarta-feira e sábado.",
+
+
+  /*
+  24
+  Pegadinha: Iansã
+  */
+
+  "Iansã é apresentada como Deusa dos ventos e das tempestades e como aquela que domina os eguns.",
+
+
+  /*
+  25
+  Pegadinha: dias Iansã
+  */
+
+  "O material indica quarta-feira e sábado como dias de Iansã.",
+
+
+  /*
+  26
+  Pegadinha: Xangô
+  */
+
+  "Segundo a apostila, Xangô é associado aos trovões, aos raios e à justiça.",
+
+
+  /*
+  27
+  Pegadinha: distintivo Xangô
+  */
+
+  "O distintivo de Xangô apresentado no material é o machado de dois lados, chamado oxé.",
+
+
+  /*
+  28
+  Pegadinha: Obaluaê
+  */
+
+  "A apostila afirma que a prioridade de Obaluaê é a cura, embora ele seja apresentado como senhor das doenças.",
+
+
+  /*
+  29
+  Pegadinha: Exu
+  */
+
+  "Segundo o material, Exu é apresentado como mensageiro dos Orixás e possui as horas sagradas 6, 12, 18 e 24.",
+
+
+  /*
+  30
+  Pegadinha: pemba
+  */
+
+  "A pemba é apresentada na apostila como um giz de formato cônico-arredondado, feito de calcário e utilizado ritualisticamente."
+
 ];
 
+
 const corretas = {
-  q1:"Sim", q2:"Não", q3:"Sim", q4:"Não", q5:"Sim", q6:"Sim", q7:"Sim", q8:"Sim", q9:"Sim", q10:"Sim",
-  q11:"Sim", q12:"Não", q13:"Sim", q14:"Sim", q15:"Sim", q16:"Sim", q17:"Sim", q18:"Não", q19:"Sim", q20:"Sim",
-  q21:"Sim", q22:"Não", q23:"Não", q24:"Sim", q25:"Sim", q26:"Sim", q27:"Sim", q28:"Sim", q29:"Sim", q30:"Sim"
+
+  q1:"Sim",
+
+  q2:"Sim",
+
+  q3:"Sim",
+
+  q4:"Não",
+
+  q5:"Sim",
+
+  q6:"Sim",
+
+  q7:"Sim",
+
+  q8:"Não",
+
+  q9:"Sim",
+
+  q10:"Sim",
+
+  q11:"Sim",
+
+  q12:"Não",
+
+  q13:"Sim",
+
+  q14:"Sim",
+
+  q15:"Sim",
+
+  q16:"Sim",
+
+  q17:"Não",
+
+  q18:"Sim",
+
+  q19:"Sim",
+
+  q20:"Sim",
+
+  q21:"Sim",
+
+  q22:"Sim",
+
+  q23:"Sim",
+
+  q24:"Sim",
+
+  q25:"Sim",
+
+  q26:"Sim",
+
+  q27:"Sim",
+
+  q28:"Sim",
+
+  q29:"Sim",
+
+  q30:"Sim"
+
 };
 
+
 function login(){
-  const u=document.getElementById("username").value.trim();
-  const p=document.getElementById("password").value.trim();
+
+  const u=document
+    .getElementById("username")
+    .value
+    .trim();
+
+  const p=document
+    .getElementById("password")
+    .value
+    .trim();
+
+
   if(u===user && p===pass){
-    document.getElementById("loginScreen").style.display="none";
-    document.getElementById("quizScreen").style.display="block";
+
+    document
+      .getElementById("loginScreen")
+      .style.display="none";
+
+    document
+      .getElementById("quizScreen")
+      .style.display="block";
+
     montarPerguntas();
+
   } else {
-    document.getElementById("error").style.display="block";
+
+    document
+      .getElementById("error")
+      .style.display="block";
+
   }
+
 }
+
 
 function montarPerguntas(){
-  const qDiv=document.getElementById("questions");
+
+  const qDiv=document
+    .getElementById("questions");
+
   qDiv.innerHTML="";
+
+
   perguntas.forEach((txt,i)=>{
+
     const id="q"+(i+1);
+
+
     qDiv.innerHTML+=`
+
     <div class="question">
-      <div>${i+1}. ${txt}</div>
-      <div class="options">
-        <label><input type="radio" name="${id}" value="Sim"> Sim</label>
-        <label><input type="radio" name="${id}" value="Não"> Não</label>
+
+      <div>
+        ${i+1}. ${txt}
       </div>
-    </div>`;
+
+
+      <div class="options">
+
+        <label>
+
+          <input
+            type="radio"
+            name="${id}"
+            value="Sim"
+          >
+
+          Sim
+
+        </label>
+
+
+        <label>
+
+          <input
+            type="radio"
+            name="${id}"
+            value="Não"
+          >
+
+          Não
+
+        </label>
+
+      </div>
+
+    </div>
+
+    `;
+
   });
+
 }
+
 
 function verificar(){
-  const total=Object.keys(corretas).length;
+
+  const total=
+    Object.keys(corretas).length;
+
   let acertos=0;
+
   let naoResp=[];
+
+
   Object.keys(corretas).forEach(k=>{
-    const r=document.querySelector('input[name="'+k+'"]:checked');
-    if(!r){ naoResp.push(k); return; }
-    if(r.value===corretas[k]) acertos++;
+
+    const r=document.querySelector(
+      'input[name="'+k+'"]:checked'
+    );
+
+
+    if(!r){
+
+      naoResp.push(k);
+
+      return;
+
+    }
+
+
+    if(r.value===corretas[k]){
+
+      acertos++;
+
+    }
+
   });
-  if(naoResp.length>0){ alert("Responda todas as perguntas antes de enviar!"); return; }
-  const resultado=document.getElementById("resultado");
-  const perc=Math.round((acertos/total)*100);
+
+
+  if(naoResp.length>0){
+
+    alert(
+      "Responda todas as perguntas antes de enviar!"
+    );
+
+    return;
+
+  }
+
+
+  const resultado=
+    document.getElementById("resultado");
+
+
+  const perc=Math.round(
+    (acertos/total)*100
+  );
+
+
   resultado.style.display="block";
-  resultado.innerHTML=`Você acertou <strong>${acertos}</strong> de <strong>${total}</strong> perguntas (${perc}%).`;
+
+
+  resultado.innerHTML=`
+
+    Você acertou
+
+    <strong>${acertos}</strong>
+
+    de
+
+    <strong>${total}</strong>
+
+    perguntas
+
+    (${perc}%).
+
+  `;
+
+
   mostrarRespostas();
-  document.getElementById("logoutBtn").style.display="block";
+
+
+  document
+    .getElementById("logoutBtn")
+    .style.display="block";
+
 }
+
 
 function mostrarRespostas(){
-  const div=document.getElementById("respostas");
+
+  const div=
+    document.getElementById("respostas");
+
   div.innerHTML="";
+
+
   Object.keys(corretas).forEach((k,i)=>{
-    const r=document.querySelector('input[name="'+k+'"]:checked');
-    const valor=r?r.value:"Não respondida";
-    const correta=corretas[k];
-    const cls=valor===correta?"correct":"wrong";
-    div.innerHTML+=`<div class="answer-item ${cls}">
-      <strong>${i+1}. ${perguntas[i]}</strong><br>
-      Sua resposta: <b>${valor}</b> | Correta: <b>${correta}</b>
-    </div>`;
+
+    const r=document.querySelector(
+      'input[name="'+k+'"]:checked'
+    );
+
+
+    const valor=
+      r ? r.value : "Não respondida";
+
+
+    const correta=
+      corretas[k];
+
+
+    const cls=
+      valor===correta
+      ? "correct"
+      : "wrong";
+
+
+    div.innerHTML+=`
+
+      <div class="answer-item ${cls}">
+
+        <strong>
+          ${i+1}. ${perguntas[i]}
+        </strong>
+
+        <br>
+
+        Sua resposta:
+        <b>${valor}</b>
+
+        |
+
+        Correta:
+        <b>${correta}</b>
+
+      </div>
+
+    `;
+
   });
+
 }
 
+
 function logout(){
-  document.getElementById("quizScreen").style.display="none";
-  document.getElementById("loginScreen").style.display="block";
-  document.getElementById("username").value="";
-  document.getElementById("password").value="";
-  document.getElementById("resultado").style.display="none";
-  document.getElementById("respostas").innerHTML="";
-  document.getElementById("logoutBtn").style.display="none";
+
+  document
+    .getElementById("quizScreen")
+    .style.display="none";
+
+
+  document
+    .getElementById("loginScreen")
+    .style.display="block";
+
+
+  document
+    .getElementById("username")
+    .value="";
+
+
+  document
+    .getElementById("password")
+    .value="";
+
+
+  document
+    .getElementById("resultado")
+    .style.display="none";
+
+
+  document
+    .getElementById("respostas")
+    .innerHTML="";
+
+
+  document
+    .getElementById("logoutBtn")
+    .style.display="none";
+
 }
+
 </script>
+
 </body>
 </html>
