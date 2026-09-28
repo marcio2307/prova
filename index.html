@@ -151,6 +151,63 @@ label {
 
 }
 
+
+/* =====================================================
+   LEITURA POR VOZ — ACESSIBILIDADE
+   ===================================================== */
+
+.voice-access{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:8px;
+  margin:8px auto 12px;
+}
+
+.voice-btn{
+  width:36px;
+  height:36px;
+  min-width:36px;
+  padding:0;
+  border:1px solid rgba(6,78,59,.30);
+  border-radius:50%;
+  background:#fff;
+  color:var(--accent);
+  font-size:14px;
+  cursor:pointer;
+  display:grid;
+  place-items:center;
+  box-shadow:0 2px 7px rgba(0,0,0,.10);
+  transition:transform .15s ease, background .15s ease, color .15s ease;
+  -webkit-tap-highlight-color:transparent;
+}
+
+.voice-btn:hover,
+.voice-btn.ativo{
+  background:var(--accent);
+  color:#fff;
+}
+
+.voice-btn:active{
+  transform:scale(.94);
+}
+
+.voice-btn:focus-visible{
+  outline:2px solid var(--accent);
+  outline-offset:3px;
+}
+
+.voice-label{
+  font-size:12px;
+  color:#666;
+  user-select:none;
+}
+
+.voice-speaking{
+  outline:2px solid var(--accent);
+  outline-offset:2px;
+}
+
 </style>
 </head>
 
@@ -180,6 +237,20 @@ label {
     </div>
 
     <h1>Login da Prova</h1>
+
+    <div class="voice-access">
+      <button
+        class="voice-btn"
+        id="voiceBtnLogin"
+        type="button"
+        aria-label="Ativar leitura por voz"
+        aria-pressed="false"
+        title="Leitura por voz"
+      >
+        <i class="fa-solid fa-volume-high" aria-hidden="true"></i>
+      </button>
+      <span class="voice-label" id="voiceLabelLogin">Leitura por voz</span>
+    </div>
 
     <div class="login-box">
 
@@ -237,6 +308,20 @@ label {
     <h1>
       Prova Avançada – Noções de Umbanda
     </h1>
+
+    <div class="voice-access">
+      <button
+        class="voice-btn"
+        id="voiceBtnQuiz"
+        type="button"
+        aria-label="Ativar leitura por voz"
+        aria-pressed="false"
+        title="Leitura por voz"
+      >
+        <i class="fa-solid fa-volume-high" aria-hidden="true"></i>
+      </button>
+      <span class="voice-label" id="voiceLabelQuiz">Leitura por voz</span>
+    </div>
 
     <form id="quizForm">
 
@@ -452,6 +537,14 @@ function login() {
 
     montarPerguntas();
 
+    if(vozAtiva){
+      setTimeout(() => {
+        falarVoz(
+          "Você entrou na Prova Avançada de Noções de Umbanda. Existem 30 perguntas. Toque em uma pergunta para ouvir o texto. Depois escolha sim ou não."
+        );
+      }, 250);
+    }
+
   } else {
 
     document
@@ -482,7 +575,10 @@ function montarPerguntas() {
 
     qDiv.innerHTML += `
 
-      <div class="question">
+      <div class="question" tabindex="0"
+           data-voz-pergunta="${i + 1}. ${txt}"
+           onclick="lerPergunta(this)"
+           onkeydown="if(event.key==='Enter' || event.key===' '){event.preventDefault();lerPergunta(this)}">
 
         <div>
           ${i + 1}. ${txt}
@@ -490,7 +586,7 @@ function montarPerguntas() {
 
         <div class="options">
 
-          <label>
+          <label onclick="event.stopPropagation()">
 
             <input
               type="radio"
@@ -503,7 +599,7 @@ function montarPerguntas() {
           </label>
 
 
-          <label>
+          <label onclick="event.stopPropagation()">
 
             <input
               type="radio"
@@ -609,6 +705,14 @@ function verificar() {
 
   mostrarRespostas();
 
+  if(vozAtiva){
+    setTimeout(() => {
+      falarVoz(
+        `Resultado da prova. Você acertou ${acertos} de ${total} perguntas, totalizando ${perc} por cento.`
+      );
+    }, 250);
+  }
+
 
   document
     .getElementById("logoutBtn")
@@ -690,6 +794,10 @@ function mostrarRespostas() {
 
 function logout() {
 
+  if("speechSynthesis" in window){
+    window.speechSynthesis.cancel();
+  }
+
   document
     .getElementById("quizScreen")
     .style.display = "none";
@@ -725,6 +833,163 @@ function logout() {
     .style.display = "none";
 
 }
+
+
+/* =====================================================
+   LEITURA POR VOZ
+   Usa a voz nativa do celular/computador.
+   Nenhum arquivo de áudio é necessário.
+   ===================================================== */
+
+let vozAtiva = false;
+let elementoFalando = null;
+
+const voiceBtns = [
+  document.getElementById("voiceBtnLogin"),
+  document.getElementById("voiceBtnQuiz")
+].filter(Boolean);
+
+function obterVozPtBR(){
+  if(!("speechSynthesis" in window)) return null;
+
+  const vozes = window.speechSynthesis.getVoices();
+
+  return (
+    vozes.find(v => (v.lang || "").toLowerCase() === "pt-br") ||
+    vozes.find(v => (v.lang || "").toLowerCase().startsWith("pt")) ||
+    null
+  );
+}
+
+function falarVoz(texto, aoTerminar = null){
+
+  if(!("speechSynthesis" in window)){
+    if(aoTerminar) aoTerminar();
+    return;
+  }
+
+  window.speechSynthesis.cancel();
+
+  const fala = new SpeechSynthesisUtterance(texto);
+  fala.lang = "pt-BR";
+  fala.rate = 0.88;
+  fala.pitch = 1;
+  fala.volume = 1;
+
+  const voz = obterVozPtBR();
+  if(voz) fala.voice = voz;
+
+  fala.onend = () => {
+    if(aoTerminar) aoTerminar();
+  };
+
+  fala.onerror = () => {
+    if(aoTerminar) aoTerminar();
+  };
+
+  window.speechSynthesis.speak(fala);
+}
+
+function atualizarBotoesVoz(){
+
+  voiceBtns.forEach(btn => {
+
+    btn.classList.toggle("ativo", vozAtiva);
+
+    btn.setAttribute(
+      "aria-pressed",
+      String(vozAtiva)
+    );
+
+    btn.setAttribute(
+      "aria-label",
+      vozAtiva
+        ? "Desativar leitura por voz"
+        : "Ativar leitura por voz"
+    );
+  });
+}
+
+function alternarVoz(){
+
+  vozAtiva = !vozAtiva;
+
+  atualizarBotoesVoz();
+
+  if(vozAtiva){
+
+    falarVoz(
+      "Leitura por voz ativada. Você pode tocar em uma pergunta para ouvi-la. Ao entrar na prova, as instruções também serão lidas."
+    );
+
+  }else{
+
+    if("speechSynthesis" in window){
+      window.speechSynthesis.cancel();
+    }
+
+    if(elementoFalando){
+      elementoFalando.classList.remove("voice-speaking");
+      elementoFalando = null;
+    }
+  }
+}
+
+voiceBtns.forEach(btn => {
+  btn.addEventListener("click", alternarVoz);
+});
+
+function lerPergunta(elemento){
+
+  if(!vozAtiva) return;
+
+  const texto = elemento.getAttribute("data-voz-pergunta");
+
+  if(!texto) return;
+
+  if(elementoFalando){
+    elementoFalando.classList.remove("voice-speaking");
+  }
+
+  elementoFalando = elemento;
+  elementoFalando.classList.add("voice-speaking");
+
+  falarVoz(
+    "Pergunta. " + texto + ". Escolha sim ou não.",
+    () => {
+      if(elementoFalando === elemento){
+        elemento.classList.remove("voice-speaking");
+        elementoFalando = null;
+      }
+    }
+  );
+}
+
+function lerTextoDaPagina(texto){
+  if(vozAtiva){
+    falarVoz(texto);
+  }
+}
+
+if("speechSynthesis" in window){
+  window.speechSynthesis.onvoiceschanged = () => {
+    obterVozPtBR();
+  };
+}
+
+document.addEventListener("keydown", (event) => {
+
+  if(event.key === "Escape" && "speechSynthesis" in window){
+    window.speechSynthesis.cancel();
+
+    if(elementoFalando){
+      elementoFalando.classList.remove("voice-speaking");
+      elementoFalando = null;
+    }
+  }
+
+});
+
 
 </script>
 
